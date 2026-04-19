@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Serwist generated service worker artifacts
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+public/workbox-*.js
+
+# Supabase local state
+supabase/.branches/
+supabase/.temp/
+supabase/seed.sql.backup
