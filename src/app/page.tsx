@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { TasaWidget } from "@/components/brillamax/TasaWidget";
 import { AlertBanner } from "@/components/brillamax/AlertBanner";
@@ -7,14 +8,19 @@ import { getDashboardKpis } from "@/features/reports/actions";
 
 export default async function Home() {
   const supabase = await createClient();
-  const [
-    {
-      data: { user },
-    },
-    kpis,
-  ] = await Promise.all([supabase.auth.getUser(), getDashboardKpis()]);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const phone = user?.phone ?? user?.email ?? "—";
+  // Defense-in-depth: el middleware (proxy.ts) ya gatea, pero la página
+  // también redirige para que sea robusta si el middleware no corriera
+  // (tests unit, server offline con caché, etc.).
+  if (!user) redirect("/auth/login");
+  const tenantId = user.app_metadata?.tenant_id as string | undefined;
+  if (!tenantId) redirect("/onboarding");
+
+  const kpis = await getDashboardKpis();
+  const phone = user.phone ?? user.email ?? "—";
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col gap-6 bg-background px-5 py-8 text-foreground">

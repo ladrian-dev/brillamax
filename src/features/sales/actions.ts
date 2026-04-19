@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { MissingRateError, requireTodayRate } from "@/features/rate/require-rate";
 import {
   salePayloadSchema,
   type SaleActionState,
@@ -103,6 +104,22 @@ export async function registerSale(
       error: parsed.error.issues[0]?.message ?? "Datos inválidos",
       fieldErrors: fieldErrorsFrom(parsed.error.issues),
     };
+  }
+
+  // Hard-block ADR-002: ventas cruzan monedas por definición (USD ↔ VEF).
+  try {
+    const todayRate = await requireTodayRate();
+    if (Math.abs(parsed.data.exchangeRateUsed - todayRate.value) > 0.0001) {
+      return {
+        ok: false,
+        error: `La tasa del payload (${parsed.data.exchangeRateUsed}) no coincide con la tasa del día (${todayRate.value}). Refresca la pantalla.`,
+      };
+    }
+  } catch (e) {
+    if (e instanceof MissingRateError) {
+      return { ok: false, error: e.message };
+    }
+    throw e;
   }
 
   const supabase = await createClient();

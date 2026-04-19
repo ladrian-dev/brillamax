@@ -35,3 +35,19 @@ export const createTenantSchema = z.object({
 });
 
 export type CreateTenantInput = z.infer<typeof createTenantSchema>;
+
+/**
+ * Estado del form de onboarding. Vive aquí (no en actions.ts) porque Next.js 16
+ * exige que los archivos "use server" solo exporten funciones async.
+ */
+export type OnboardingState = {
+  ok: boolean;
+  error?: string;
+  values?: {
+    name?: string;
+    slug?: string;
+    warehouseName?: string;
+  };
+};
+
+export const initialOnboardingState: OnboardingState = { ok: false };

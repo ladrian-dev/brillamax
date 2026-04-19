@@ -13,7 +13,6 @@ import { listDeliveryNotes } from "@/features/delivery-notes/actions";
 import { getTodayRate } from "@/features/rate/actions";
 import { getSessionContext } from "@/features/auth/session";
 import { QuickSaleDialog } from "./quick-sale-dialog";
-import { SyncMount } from "./sync-mount";
 import { IssueDeliveryNoteButton } from "./issue-note-button";
 import type {
   SalePaymentStatus,
@@ -102,8 +101,6 @@ export default async function VentasPage() {
           </Button>
         </Link>
       </header>
-      {session ? <SyncMount tenantId={session.tenantId} /> : null}
-
       {!todayRate ? (
         <AlertBanner
           tone="warning"

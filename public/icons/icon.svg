@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Brillamax">
+  <rect width="512" height="512" rx="96" fill="#fffaf7"/>
+  <g transform="translate(256 256)">
+    <circle r="176" fill="#c75146"/>
+    <path d="M-72 -72 L72 -72 L72 72 L-72 72 Z M-72 -72 L72 72 M72 -72 L-72 72" stroke="#fffaf7" stroke-width="24" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle r="18" fill="#ea8c55"/>
+  </g>
+  <text x="256" y="452" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="#540804" text-anchor="middle">Brillamax</text>
+</svg>

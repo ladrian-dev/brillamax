@@ -50,3 +50,8 @@ public/workbox-*.js
 supabase/.branches/
 supabase/.temp/
 supabase/seed.sql.backup
+
+# Playwright
+/playwright-report/
+/test-results/
+/playwright/.cache/

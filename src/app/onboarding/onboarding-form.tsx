@@ -4,11 +4,11 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { createTenantAction } from "@/features/onboarding/actions";
 import {
-  createTenantAction,
   initialOnboardingState,
-} from "@/features/onboarding/actions";
-import { slugify } from "@/features/onboarding/schema";
+  slugify,
+} from "@/features/onboarding/schema";
 
 export function OnboardingForm() {
   const [state, formAction, pending] = useActionState(

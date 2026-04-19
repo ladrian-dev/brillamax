@@ -3,18 +3,12 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { emailLoginSchema, loginSchema, verifySchema } from "./schema";
-
-export type AuthFormState = {
-  ok: boolean;
-  error?: string;
-  info?: string;
-  /** Valor echo para re-popular inputs tras error. */
-  phone?: string;
-  email?: string;
-};
-
-const INITIAL: AuthFormState = { ok: false };
+import {
+  emailLoginSchema,
+  loginSchema,
+  verifySchema,
+  type AuthFormState,
+} from "./schema";
 
 /**
  * Pide OTP vía SMS. En dev local Supabase loggea el código en consola/Inbucket;
@@ -132,5 +126,3 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect("/auth/login");
 }
-
-export { INITIAL as initialAuthState };

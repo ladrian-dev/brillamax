@@ -2,19 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { createTenantSchema } from "./schema";
-
-export type OnboardingState = {
-  ok: boolean;
-  error?: string;
-  values?: {
-    name?: string;
-    slug?: string;
-    warehouseName?: string;
-  };
-};
-
-export const initialOnboardingState: OnboardingState = { ok: false };
+import { createTenantSchema, type OnboardingState } from "./schema";
 
 export async function createTenantAction(
   _prev: OnboardingState,

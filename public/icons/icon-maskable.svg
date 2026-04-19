@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Brillamax">
+  <rect width="512" height="512" fill="#c75146"/>
+  <g transform="translate(256 256)">
+    <circle r="128" fill="#fffaf7"/>
+    <circle r="108" fill="#c75146"/>
+    <path d="M-60 -60 L60 -60 L60 60 L-60 60 Z M-60 -60 L60 60 M60 -60 L-60 60" stroke="#fffaf7" stroke-width="20" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle r="14" fill="#ea8c55"/>
+  </g>
+</svg>

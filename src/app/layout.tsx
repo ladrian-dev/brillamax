@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { createClient } from "@/lib/supabase/server";
+import { GlobalSync } from "@/components/brillamax/GlobalSync";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,17 +37,32 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Leer tenantId del JWT para arrancar el sync outbox globalmente. El proxy
+  // ya garantiza que rutas autenticadas solo se alcanzan con sesión válida;
+  // aquí tolera null para rutas públicas (/auth/*, /onboarding).
+  let tenantId: string | null = null;
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+    tenantId = (data.user?.app_metadata?.tenant_id as string | undefined) ?? null;
+  } catch {
+    tenantId = null;
+  }
+
   return (
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <GlobalSync tenantId={tenantId} />
+        {children}
+      </body>
     </html>
   );
 }

@@ -52,3 +52,20 @@ export const verifySchema = z.object({
 export type LoginInput = z.infer<typeof loginSchema>;
 export type VerifyInput = z.infer<typeof verifySchema>;
 export type EmailLoginInput = z.infer<typeof emailLoginSchema>;
+
+/**
+ * Estado del form de auth (OTP + magic link). Vive aquí, no en actions.ts,
+ * porque Next.js 16 exige que los archivos "use server" solo exporten
+ * funciones async — constantes de estado inicial deben vivir en módulos
+ * del cliente o en schemas compartidos.
+ */
+export type AuthFormState = {
+  ok: boolean;
+  error?: string;
+  info?: string;
+  /** Valor echo para re-popular inputs tras error. */
+  phone?: string;
+  email?: string;
+};
+
+export const initialAuthState: AuthFormState = { ok: false };
